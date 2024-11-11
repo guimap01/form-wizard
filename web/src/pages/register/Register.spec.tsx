@@ -6,16 +6,29 @@ import {
   assessPersonalInformationFields,
   fillDeliveryPreferencesForm,
   fillPersonalForm,
+  QueryClientWrapper,
 } from '@/utils/testUtils';
 
+jest.mock('@/api', () => ({
+  api: {
+    get: jest.fn().mockResolvedValue({ data: {} }),
+  },
+}));
+
 describe('Register', () => {
+  beforeEach(() => {
+    localStorage.removeItem('register');
+  });
+  function renderComponent() {
+    render(<QueryClientWrapper>{<Register />}</QueryClientWrapper>);
+  }
   it('should render the Register component', async () => {
-    render(<Register />);
+    renderComponent();
 
     await assessPersonalInformationFields();
   });
   it('should be able to fill the Personal form and go to next step', async () => {
-    render(<Register />);
+    renderComponent();
 
     await fillPersonalForm();
 
@@ -39,7 +52,7 @@ describe('Register', () => {
     });
   });
   it('should be able to return to Personal form from Delivery preferences form', async () => {
-    render(<Register />);
+    renderComponent();
 
     await fillPersonalForm();
 
@@ -59,7 +72,7 @@ describe('Register', () => {
     await assessPersonalInformationFields();
   });
   it('should be able to fill Delivery preferences form and go to final step with all fields from previous steps filled', async () => {
-    render(<Register />);
+    renderComponent();
 
     await fillPersonalForm();
 
@@ -111,6 +124,30 @@ describe('Register', () => {
           name: /delivery address/i,
         })
       ).toHaveValue('test location 123');
+    });
+  });
+  it('should open localStorageModal when data is present in local storage', async () => {
+    localStorage.setItem(
+      'register',
+      JSON.stringify({
+        firstName: 'test first name',
+        lastName: 'test last name',
+        email: 'email@gmail.com',
+      })
+    );
+    renderComponent();
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('button', {
+          name: /continue/i,
+        })
+      );
+      expect(
+        screen.getByRole('button', {
+          name: /start over/i,
+        })
+      );
     });
   });
 });

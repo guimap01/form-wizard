@@ -6,6 +6,12 @@ import {
 } from './PersonalInformation';
 import userEvent from '@testing-library/user-event';
 
+jest.mock('@/api', () => ({
+  api: {
+    get: jest.fn().mockResolvedValue({ data: { id: 1 } }),
+  },
+}));
+
 describe('PersonalInformation', () => {
   function renderComponent({
     defaultValues,
@@ -85,6 +91,20 @@ describe('PersonalInformation', () => {
           name: /email/i,
         })
       ).toHaveValue(defaultValues.email);
+    });
+  });
+  it('should validate email input with existing email', async () => {
+    renderComponent();
+
+    await userEvent.type(
+      screen.getByRole('textbox', {
+        name: /email/i,
+      }),
+      'email@gmail.com'
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/email is already in use/i)).toBeInTheDocument();
     });
   });
 });

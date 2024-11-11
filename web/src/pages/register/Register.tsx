@@ -19,7 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { defineStepper } from '@stepperize/react';
 import { isAxiosError } from 'axios';
 import { useRegisterUser } from './hooks/useRegister';
-import { useLocaStorageModal } from '@/hooks/useLocalStorageModal';
+import { useLocalStorageModal } from '@/hooks/useLocalStorageModal';
 
 const localStorageKey = 'register';
 
@@ -28,7 +28,7 @@ export function Register() {
   const stepper = useStepper();
   const { isPending, mutateAsync } = useRegisterUser();
   const { data, localStorageModal, resetData } =
-    useLocaStorageModal<RegisterData>(localStorageKey);
+    useLocalStorageModal<RegisterData>(localStorageKey);
 
   async function onSubmit(data: RegisterData) {
     try {

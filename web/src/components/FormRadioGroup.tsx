@@ -30,7 +30,10 @@ export function FormRadioGroup({
           className={`flex ${dir === 'vertical' && 'flex-col'}`}
         >
           {options.map((option) => (
-            <FormItem className="flex items-center space-x-3 space-y-0">
+            <FormItem
+              className="flex items-center space-x-3 space-y-0"
+              key={option.value}
+            >
               <FormControl>
                 <RadioGroupItem value={option.value} />
               </FormControl>

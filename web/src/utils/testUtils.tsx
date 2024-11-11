@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ReactNode } from 'react';
@@ -86,4 +87,11 @@ export async function assessDeliveryPreferencesFields() {
       })
     ).toBeInTheDocument();
   });
+}
+
+export function QueryClientWrapper({ children }: { children: ReactNode }) {
+  const queryClient = new QueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 }

@@ -11,7 +11,7 @@ import {
 } from '../components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
-export function useLocaStorageModal<T>(key: string) {
+export function useLocalStorageModal<T>(key: string) {
   const [data, setData] = useState<T>();
   const [hasData, setHasData] = useState(false);
   const { toast } = useToast();
