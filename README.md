@@ -82,3 +82,7 @@ This will start the Vite-powered React application in development mode.
 Notes
 The project is built using Yarn, so using Yarn for installing dependencies and running scripts is recommended.
 Make sure Node.js v20.18.0 or above is installed, as this project may not be compatible with earlier versions.
+
+<p align="center">
+  <img src="demo.gif" alt="Description of the GIF">
+</p>
